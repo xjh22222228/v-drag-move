@@ -1,0 +1,26 @@
+{
+  "name": "v-drag-move",
+  "version": "0.0.1",
+  "main": "./dist/lib/DragMove.common.js",
+  "homepage": "https://github.com/xjh22222228/v-drag-move",
+  "bugs": {
+    "url": "https://github.com/xjh22222228/v-drag-move/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xjh22222228/v-drag-move.git"
+  },
+  "scripts": {
+    "start": "npm run serve",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --target lib --dest dist/lib --name DragMove 'src/components/DragMove.vue'"
+  },
+  "devDependencies": {
+    "vue": "^3.0.4",
+    "@vue/cli-plugin-typescript": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "typescript": "~3.9.3"
+  }
+}
