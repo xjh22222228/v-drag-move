@@ -3,10 +3,13 @@
   <p align="center">让容器跳起来</p>
   <p align="center">
     <img src="https://img.shields.io/github/package-json/v/xjh22222228/v-drag-move" />
-    <img src="https://img.shields.io/github/license/xjh22222228/v-drag-move" />
     <img src="https://img.shields.io/static/v1.svg?label=&message=Vue&style=flat-square&color=3fb984" />
+    <img src="https://img.shields.io/github/license/xjh22222228/v-drag-move" />
   </p>
 </p>
+
+
+![](media/demo.gif)
 
 
 ## 安装
@@ -63,6 +66,7 @@ export default defineComponent({
 ## Attributes
 | 参数           | 描述              |类型           | 默认值              |
 | ------------- |------------------- |-------------- |------ |
+| active | 是否处于激活状态, 对于类似 Modal 的务必设置 | boolean | false |
 | move-selector | 容器选择器, 整个容器能被移动 |  string  | -- |
 | drag-selector | 拖动选择器, 拖动部位 |string| -- |
 
@@ -71,6 +75,5 @@ export default defineComponent({
 
 
 
-
 ## LICENSE
-[LICENSE](./LICENSE)
+[MIT](./LICENSE)

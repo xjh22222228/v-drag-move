@@ -1,37 +1,68 @@
 <template>
   <DragMove
-    move-selector=".container"
-    drag-selector=".container .header"
+    drag-selector=".drag-container .ant-modal-header"
+    move-selector=".drag-container .ant-modal"
+    :active="visible"
   >
-    <div class="container">
-      <header class="header"></header>
+    <div>
+      <a-button type="primary" @click="showModal"> Open Modal </a-button>
+      <a-modal
+        title="V Drag Move"
+        v-model:visible="visible"
+        :confirm-loading="confirmLoading"
+        wrapClassName="drag-container"
+        @ok="handleOk"
+      >
+        <p>让模态框跳起来</p>
+      </a-modal>
     </div>
   </DragMove>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import DragMove from './components/DragMove.vue'
+<script type="setup">
+import { ref } from "vue";
+import DragMove from "./components/DragMove.vue";
 
-export default defineComponent({
-  name: 'App',
+export default {
+  name: "App",
+
   components: {
-    DragMove
-  }
-})
+    DragMove,
+  },
+
+  setup() {
+    const visible = ref(false);
+    const confirmLoading = ref(false);
+
+    function showModal() {
+      visible.value = true;
+    }
+
+    function handleOk() {
+      confirmLoading.value = true;
+      setTimeout(() => {
+        visible.value = false;
+        confirmLoading.value = false;
+      }, 2000);
+    }
+
+    return {
+      visible,
+      confirmLoading,
+      showModal,
+      handleOk,
+    };
+  },
+};
 </script>
 
-<style scoped>
-.container {
-  width: 300px;
-  height: 500px;
-  margin: 0 auto;
-  border: 1px solid red;
-  border-radius: 5px;
-}
-
-.header {
-  height: 35px;
-  border-bottom: 1px solid #ccc;
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>

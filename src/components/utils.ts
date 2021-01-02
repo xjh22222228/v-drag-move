@@ -4,7 +4,7 @@ export function addEvent(
   event: string,
   handler: (e: any) => void
 ) {
-  obj.addEventListener(event, handler)
+  obj && obj.addEventListener(event, handler)
 }
 
 export function removeEvent(
@@ -12,5 +12,5 @@ export function removeEvent(
   event: string,
   handler: (e: any) => void
 ) {
-  obj.removeEventListener(event, handler)
+  obj && obj.removeEventListener(event, handler)
 }

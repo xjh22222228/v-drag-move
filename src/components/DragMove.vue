@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted } from 'vue'
+import { defineComponent, onMounted, onUnmounted, watch } from 'vue'
 import { addEvent, removeEvent } from './utils'
 
 let eventFor = {
@@ -31,10 +31,15 @@ export default defineComponent({
     dragSelector: {
       type: String,
       required: true
+    },
+    // 是否处于激活状态
+    active: {
+      type: Boolean,
+      default: false
     }
   },
 
-  setup(ctx) {
+  setup(props) {
     let moveEl: HTMLElement
     let dragEl: HTMLElement
 
@@ -101,9 +106,12 @@ export default defineComponent({
       removeEvent(window, eventFor.mousemove, mouseMove)
     }
 
-    onMounted(() => {
-      moveEl = document.querySelector(ctx.moveSelector) as HTMLElement
-      dragEl = document.querySelector(ctx.dragSelector) as HTMLElement
+    // 初始化组件设置
+    function init() {
+      destroy()
+
+      moveEl = document.querySelector(props.moveSelector) as HTMLElement
+      dragEl = document.querySelector(props.dragSelector) as HTMLElement
 
       if (!moveEl || !dragEl) return
 
@@ -111,13 +119,30 @@ export default defineComponent({
       dragEl.style.cursor = 'move'
       addEvent(dragEl, eventFor.mousedown, mouseDown)
       addEvent(window, eventFor.mouseup, mouseUp)
-    })
+    }
 
-    // 移除事件
-    onUnmounted(() => {
+    // 销毁事件
+    function destroy() {
+      x = y = moveEltranslateX = moveEltranslateY = 0
+      
       removeEvent(dragEl, eventFor.mousedown, mouseDown)
       removeEvent(dragEl, eventFor.mouseup, mouseUp)
+
+      moveEl && (moveEl.style.transform = 'translate(0, 0)')
+    }
+
+    // 侦测激活状态
+    watch(() => props.active, prevVal => {
+      if (prevVal) {
+        setTimeout(init, 100)
+      } else {
+        destroy()
+      }
     })
+
+    onMounted(init)
+    // 移除事件
+    onUnmounted(destroy)
   }
 })
 </script>
