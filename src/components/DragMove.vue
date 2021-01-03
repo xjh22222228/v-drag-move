@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <slot></slot>
 </template>
 
@@ -43,31 +44,31 @@ export default defineComponent({
     let moveEl: HTMLElement
     let dragEl: HTMLElement
 
-    let x = 0
-    let y = 0
-    let moveEltranslateX = 0
-    let moveEltranslateY = 0
+    let shiftX = 0
+    let shiftY = 0
+    let moveElTranslateX = 0
+    let moveElTranslateY = 0
 
     function mouseMove(e: MouseEvent|TouchEvent) {
       e.stopPropagation()
       e.preventDefault()
 
-      let xx = 0
-      let yy = 0
+      let x = 0
+      let y = 0
 
       if (e.type === 'touchmove') {
         const { touches } = e as TouchEvent
         if (touches.length > 0) {
-          xx = touches[0].pageX - x
-          yy = touches[0].pageY - y
+          x = touches[0].pageX - shiftX
+          y = touches[0].pageY - shiftY
         }
       } else {
         const { pageX, pageY } = e as MouseEvent
-        xx = pageX - x
-        yy = pageY - y
+        x = pageX - shiftX
+        y = pageY - shiftY
       }
 
-      moveEl.style.transform = `translate(${xx + moveEltranslateX}px, ${yy + moveEltranslateY}px)`
+      moveEl.style.transform = `translate(${x + moveElTranslateX}px, ${y + moveElTranslateY}px)`
     }
 
     function mouseDown(e: MouseEvent|TouchEvent) {
@@ -80,33 +81,33 @@ export default defineComponent({
       if (e.type === 'touchstart') {
         const { touches } = e as TouchEvent
         if (touches.length > 0) {
-          x = touches[0].pageX
-          y = touches[0].pageY
+          shiftX = touches[0].pageX
+          shiftY = touches[0].pageY
         }
       } else {
         const { pageX, pageY } = e as MouseEvent
-        x = pageX
-        y = pageY
+        shiftX = pageX
+        shiftY = pageY
       }
 
       if (result) {
         const split = result.split(',')
         if (split.length === 6) {
-          moveEltranslateX = parseInt(split[split.length - 2])
-          moveEltranslateY = parseInt(split[split.length - 1])
+          moveElTranslateX = parseInt(split[split.length - 2])
+          moveElTranslateY = parseInt(split[split.length - 1])
         }
       }
 
-      addEvent(window, eventFor.mousemove, mouseMove)
+      addEvent(document, eventFor.mousemove, mouseMove)
     }
 
     function mouseUp(e: MouseEvent) {
       e.stopPropagation()
       e.preventDefault()
-      removeEvent(window, eventFor.mousemove, mouseMove)
+      removeEvent(document, eventFor.mousemove, mouseMove)
     }
 
-    // 初始化组件设置
+    // init component setting
     function init() {
       destroy()
 
@@ -115,15 +116,15 @@ export default defineComponent({
 
       if (!moveEl || !dragEl) return
 
-      // 设置拖动样式并绑定事件
       dragEl.style.cursor = 'move'
+      dragEl.style.userSelect = 'none'
       addEvent(dragEl, eventFor.mousedown, mouseDown)
-      addEvent(window, eventFor.mouseup, mouseUp)
+      addEvent(document, eventFor.mouseup, mouseUp)
     }
 
-    // 销毁事件
+    // Destroy event
     function destroy() {
-      x = y = moveEltranslateX = moveEltranslateY = 0
+      shiftX = shiftY = moveElTranslateX = moveElTranslateY = 0
       
       removeEvent(dragEl, eventFor.mousedown, mouseDown)
       removeEvent(dragEl, eventFor.mouseup, mouseUp)
@@ -131,7 +132,7 @@ export default defineComponent({
       moveEl && (moveEl.style.transform = 'translate(0, 0)')
     }
 
-    // 侦测激活状态
+    // Watch active
     watch(() => props.active, prevVal => {
       if (prevVal) {
         setTimeout(init, 100)
@@ -141,7 +142,6 @@ export default defineComponent({
     })
 
     onMounted(init)
-    // 移除事件
     onUnmounted(destroy)
   }
 })

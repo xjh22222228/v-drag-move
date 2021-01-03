@@ -1,6 +1,6 @@
 <p align="center">
-  <b>v-drag-move</b>
-  <p align="center">让容器跳起来</p>
+  <img src="media/logo.svg" width="350">
+  <p align="center">在Vue应用里, 让你的容器可以跳起来！</p>
   <p align="center">
     <img src="https://img.shields.io/github/package-json/v/xjh22222228/v-drag-move" />
     <img src="https://img.shields.io/static/v1.svg?label=&message=Vue&style=flat-square&color=3fb984" />
@@ -15,8 +15,10 @@
 ## 安装
 确保 Vue 版本 >= 3.x
 
-```
+```bash
 npm i v-drag-move -S
+# or
+yarn v-drag-move
 ```
 
 
@@ -68,7 +70,7 @@ export default defineComponent({
 ## Attributes
 | 参数           | 描述              |类型           | 默认值              |
 | ------------- |------------------- |-------------- |------ |
-| active | 是否处于激活状态, 对于类似 Modal 的务必设置 | boolean | false |
+| active | 是否处于激活状态, 对于类似 Modal 组件务必设置 | boolean | false |
 | move-selector | 容器选择器, 整个容器能被移动 |  string  | -- |
 | drag-selector | 拖动选择器, 拖动部位 |string| -- |
 

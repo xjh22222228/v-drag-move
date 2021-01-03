@@ -11,3 +11,4 @@ npm publish
 sed -i.bak 's!/placeholder!/dist!' .gitignore
 
 rm -rf .gitignore.*
+rm -rf dist

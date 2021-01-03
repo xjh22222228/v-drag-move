@@ -6,10 +6,10 @@
   >
     <div>
       <a-button type="primary" @click="showModal"> Open Modal </a-button>
+      <!-- eslint-disable -->
       <a-modal
         title="V Drag Move"
         v-model:visible="visible"
-        :confirm-loading="confirmLoading"
         wrapClassName="drag-container"
         @ok="handleOk"
       >
@@ -39,16 +39,11 @@ export default {
     }
 
     function handleOk() {
-      confirmLoading.value = true;
-      setTimeout(() => {
-        visible.value = false;
-        confirmLoading.value = false;
-      }, 2000);
+      visible.value = false;
     }
 
     return {
       visible,
-      confirmLoading,
       showModal,
       handleOk,
     };
