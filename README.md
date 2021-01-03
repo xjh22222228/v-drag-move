@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="media/logo.svg" width="350">
+  <img src="media/logo.png" width="350">
   <p align="center">在Vue应用里, 让你的容器可以跳起来！</p>
   <p align="center">
     <img src="https://img.shields.io/github/package-json/v/xjh22222228/v-drag-move" />
