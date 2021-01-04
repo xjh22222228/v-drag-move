@@ -72,7 +72,7 @@ export default defineComponent({
 | ------------- |------------------- |-------------- |------ |
 | active | 是否处于激活状态, 对于类似 Modal 组件务必设置 | boolean | false |
 | move-selector | 容器选择器, 整个容器能被移动 |  string  | -- |
-| drag-selector | 拖动选择器, 拖动部位 |string| -- |
+| drag-selector | 拖动选择器, 拖动部位, 默认容器部位 |string| -- |
 
 
 

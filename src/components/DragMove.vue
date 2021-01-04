@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, watch } from 'vue'
-import { addEvent, removeEvent } from './utils'
+import { addEvent, removeEvent, getPosition, getTransformStyle } from './utils'
 
 let eventFor = {
   mousedown: 'mousedown',
@@ -31,7 +31,6 @@ export default defineComponent({
     // 拖动对象
     dragSelector: {
       type: String,
-      required: true
     },
     // 是否处于激活状态
     active: {
@@ -53,49 +52,22 @@ export default defineComponent({
       e.stopPropagation()
       e.preventDefault()
 
-      let x = 0
-      let y = 0
+      const position = getPosition(e)
+      let x = position.x - shiftX + moveElTranslateX
+      let y = position.y - shiftY + moveElTranslateY
 
-      if (e.type === 'touchmove') {
-        const { touches } = e as TouchEvent
-        if (touches.length > 0) {
-          x = touches[0].pageX - shiftX
-          y = touches[0].pageY - shiftY
-        }
-      } else {
-        const { pageX, pageY } = e as MouseEvent
-        x = pageX - shiftX
-        y = pageY - shiftY
-      }
-
-      moveEl.style.transform = `translate(${x + moveElTranslateX}px, ${y + moveElTranslateY}px)`
+      moveEl.style.transform = `translate(${x}px, ${y}px)`
     }
 
     function mouseDown(e: MouseEvent|TouchEvent) {
-      e.stopPropagation()
-      e.preventDefault()
-
-      // matrix(1, 0, 0, 1, 33, 31) || none
-      const result = window.getComputedStyle(moveEl).transform
+      const transform = getTransformStyle(moveEl)
+      const position = getPosition(e)
+      shiftX = position.x
+      shiftY = position.y
       
-      if (e.type === 'touchstart') {
-        const { touches } = e as TouchEvent
-        if (touches.length > 0) {
-          shiftX = touches[0].pageX
-          shiftY = touches[0].pageY
-        }
-      } else {
-        const { pageX, pageY } = e as MouseEvent
-        shiftX = pageX
-        shiftY = pageY
-      }
-
-      if (result) {
-        const split = result.split(',')
-        if (split.length === 6) {
-          moveElTranslateX = parseInt(split[split.length - 2])
-          moveElTranslateY = parseInt(split[split.length - 1])
-        }
+      if (transform) {
+        moveElTranslateX = transform.translateX
+        moveElTranslateY = transform.translateY
       }
 
       addEvent(document, eventFor.mousemove, mouseMove)
@@ -112,7 +84,7 @@ export default defineComponent({
       destroy()
 
       moveEl = document.querySelector(props.moveSelector) as HTMLElement
-      dragEl = document.querySelector(props.dragSelector) as HTMLElement
+      dragEl = document.querySelector(props.dragSelector || props.moveSelector) as HTMLElement
 
       if (!moveEl || !dragEl) return
 
@@ -129,7 +101,7 @@ export default defineComponent({
       removeEvent(dragEl, eventFor.mousedown, mouseDown)
       removeEvent(dragEl, eventFor.mouseup, mouseUp)
 
-      moveEl && (moveEl.style.transform = 'translate(0, 0)')
+      moveEl && (moveEl.style.transform = 'none')
     }
 
     // Watch active

@@ -1,19 +1,19 @@
 <template>
   <DragMove
-    drag-selector=".drag-container .ant-modal-header"
     move-selector=".drag-container .ant-modal"
     :active="visible"
   >
     <div>
-      <a-button type="primary" @click="showModal"> Open Modal </a-button>
+      <a-button type="primary" @click="toggleModal">Open Modal</a-button>
       <!-- eslint-disable -->
       <a-modal
         title="V Drag Move"
         v-model:visible="visible"
         wrapClassName="drag-container"
-        @ok="handleOk"
+        @ok="toggleModal"
       >
         <p>让模态框跳起来</p>
+        <a-input></a-input>
       </a-modal>
     </div>
   </DragMove>
@@ -32,20 +32,14 @@ export default {
 
   setup() {
     const visible = ref(false);
-    const confirmLoading = ref(false);
 
-    function showModal() {
-      visible.value = true;
-    }
-
-    function handleOk() {
-      visible.value = false;
+    function toggleModal() {
+      visible.value = !visible.value
     }
 
     return {
       visible,
-      showModal,
-      handleOk,
+      toggleModal,
     };
   },
 };
