@@ -68,11 +68,11 @@ export default defineComponent({
 
 
 ## Attributes
-| 参数           | 描述              |类型           | 默认值              |
+| 参数           | 描述              |类型           | 默认值              |是否必填   |
 | ------------- |------------------- |-------------- |------ |
-| active | 是否处于激活状态, 对于类似 Modal 组件务必设置 | boolean | false |
-| move-selector | 容器选择器, 整个容器能被移动 |  string  | -- |
-| drag-selector | 拖动选择器, 拖动部位, 默认容器部位 |string| -- |
+| active | 是否处于激活状态, 对于类似 Modal 组件务必设置 | boolean | false |否 |
+| move-selector | 容器选择器, 整个容器能被移动 |  string  | -- |是 |
+| drag-selector | 拖动选择器, 拖动部位, 默认容器部位 |string| -- |否 |
 
 
 
